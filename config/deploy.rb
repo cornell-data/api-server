@@ -15,7 +15,7 @@ set :user, "deployer"
 set :group, user
 set :runner, user
 
-set :host, "#{user}@cornelldata.org" # We need to be able to SSH to that box as this user.
+set :host, "#{user}@greenburg.cornelldata.org" # We need to be able to SSH to that box as this user.
 role :web, host
 role :app, host
 
