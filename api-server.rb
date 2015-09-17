@@ -11,7 +11,7 @@ class ApiServer < Sinatra::Base
   # CONFIG                               #
   ########################################
 
-  API_PROXY_URL = "http://labs.data.gov/csv-to-api/index.php"
+  API_PROXY_URL = "http://localhost:8000/index.php"
   DATA_FILES = YAML.load_file 'config/datasets.yaml'
 
   ########################################
