@@ -1,0 +1,57 @@
+'map-data':
+  bikeracks:
+    fields:
+      - Latitude
+      - Longitude
+  bluelights:
+    fields:
+      - Name
+      - Latitude
+      - Longitude
+  buildings:
+    fields:
+      - Name
+      - Category
+      - ImageURL
+      - Address
+      - Latitude
+      - Longitude
+      - Notes
+      - AKA
+  campustocampus:
+    fields:
+      - Name
+      - Latitude
+      - Longitude
+  diaperchangingstations:
+    fields:
+      - Latitude
+      - Longitude
+  infobooths:
+    fields:
+      - Name
+      - Latitude
+      - Longitude
+  lactationrooms:
+    fields:
+      - Name
+      - Latitude
+      - Longitude
+  parkmobile:
+    fields:
+      - ID
+      - Name
+      - Latitude
+      - Longitude
+      - Address
+      - Notes
+  virtualtour:
+    fields:
+      - ID
+      - Name
+      - Description
+      - PanDegrees
+      - TiltDegrees
+      - Latitude
+      - Longitude
+      - View

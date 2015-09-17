@@ -1,42 +1,22 @@
 require 'sinatra'
+require 'yaml'
 
 configure {
   set :server, :puma
 }
  
 class ApiServer < Sinatra::Base
+
+  ########################################
+  # CONFIG                               #
+  ########################################
+
   API_PROXY_URL = "http://labs.data.gov/csv-to-api/index.php"
-  DATA_FILES = {
-    'map-data' => {
-      'bikeracks' => {
-        fields: ['Latitude', 'Longitude']
-      },
-      'bluelights' => {
-        fields: ['Name', 'Latitude', 'Longitude']
-      },
-      'buildings' => {
-        fields: ['Name', 'Category', 'ImageURL', 'Address', 'Latitude', 'Longitude', 'Notes', 'AKA']
-      },
-      'campustocampus' => {
-        fields: ['Name', 'Latitude', 'Longitude']
-      },
-      'diaperchangingstations' => {
-        fields: ['Latitude', 'Longitude']
-      },
-      'infobooths' => {
-        fields: ['Name', 'Latitude', 'Longitude']
-      },
-      'lactationrooms' => {
-        fields: ['Name', 'Latitude', 'Longitude']
-      },
-      'parkmobile' => {
-        fields: ['ID', 'Name', 'Latitude', 'Longitude', 'Address', 'Notes']
-      },
-      'virtualtour' => {
-        fields: ['ID', 'Name', 'Description', 'PanDegrees', 'TiltDegrees', 'Latitude', 'Longitude', 'View']
-      }
-    }
-  }
+  DATA_FILES = YAML.load_file 'config/datasets.yaml'
+
+  ########################################
+  # HELPER METHODS                       #
+  ########################################
 
   def api_resp_header format
     case format.downcase
@@ -51,7 +31,11 @@ class ApiServer < Sinatra::Base
     "https://raw.githubusercontent.com/cornell-data/#{api_name}/master/#{method_name}/#{method_name}.csv"
   end
 
-  get '/api/v0' do
+  ########################################
+  # ENDPOINTS                            #
+  ########################################
+
+  get '/api/v0/?' do
     'API V0'
   end
 
@@ -63,17 +47,12 @@ class ApiServer < Sinatra::Base
     method_name = if params[:method_name].nil? then 'data' else params[:method_name] end
     error(404, "No API method \"#{method_name}\" for the dataset \"#{api_name}\"") unless DATA_FILES[api_name].has_key? method_name
 
-
     options = {query: {source: api_data_url(api_name, method_name), source_format: 'csv', header_row: 'y'}}
 
-    # Global API options
-    %w{callback sort sort_dir}.map(&:to_sym).each do |api_option|
+    # Filterable options + global API options
+    allowed_params = DATA_FILES[api_name][method_name]['fields'] + %w{callback sort sort_dir}
+    allowed_params.map(&:to_sym).each do |api_option|
       options[:query][api_option] = params[api_option] unless params[api_option].nil?
-    end
-
-    # Filter options
-    DATA_FILES[api_name][method_name][:fields].map(&:to_sym).each do |filter_option|
-      options[:query][filter_option] = params[filter_option] unless params[filter_option].nil?
     end
     
     # Handle return format
@@ -84,6 +63,10 @@ class ApiServer < Sinatra::Base
     # Call the CSV-to-API endpoint
     HTTParty.get(API_PROXY_URL, options).body 
   end
+
+  ########################################
+  # BOOTSTRAP                            #
+  ########################################
 
   run! if app_file == $0
 end
