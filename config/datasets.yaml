@@ -23,6 +23,11 @@
       - Name
       - Latitude
       - Longitude
+  carshare:
+    fields:
+      - Name
+      - Latitude
+      - Longitude
   diaperchangingstations:
     fields:
       - Latitude
@@ -37,6 +42,13 @@
       - Name
       - Latitude
       - Longitude
+  parking:
+    fields:
+      - Name
+      - Address
+      - Latitude
+      - Longitude
+      - Notes
   parkmobile:
     fields:
       - ID
