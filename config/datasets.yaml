@@ -67,3 +67,24 @@
       - Latitude
       - Longitude
       - View
+'TCAT-data':
+  'route-schedules':
+    fields:
+      - Route
+      - RouteInstance
+      - Day
+      - Direction
+      - Stop
+      - Time
+  'stop-schedules':
+    fields:
+      - Stop
+      - Route
+      - Day
+      - Direction
+      - Time
+  'stop-locations':
+    fields:
+      - Name
+      - Latitude
+      - Longitude
