@@ -88,3 +88,15 @@
       - Name
       - Latitude
       - Longitude
+'events-data':
+  data:
+    fields:
+      - Date
+      - Latitude
+      - Description
+      - PubDate
+      - Title
+      - Content
+      - Link
+      - GUID
+      - Longitude

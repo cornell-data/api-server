@@ -39,7 +39,7 @@ class ApiServer < Sinatra::Base
     'API V0'
   end
 
-  get '/api/v0/:api_name/:method_name?.?:format?' do
+  get '/api/v0/:api_name/?:method_name?.?:format?' do
 
     # Check that we have an API for that dataset and method
     api_name = params[:api_name]
